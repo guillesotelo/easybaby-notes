@@ -1,0 +1,38 @@
+.log-modal {
+    &__container {
+        display: flex;
+        flex-direction: column;
+        border-radius: 1vw;
+        box-shadow: 4px 4px 12px lightgray;
+        padding: 3vw;
+        align-self: center;
+        justify-self: center;
+    }
+
+    &__fill-section {
+        display: flex;
+        flex-direction: column;
+        gap: 2vw;
+        align-items: center;
+    }
+
+    &__btns {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-top: 2vw;
+    }
+
+    &__date-pickers-container {
+        height: 12vw;
+        position: relative;
+    }
+
+    &__date-pickers {
+        display: flex;
+        flex-direction: row;
+        align-items: flex-start;
+        justify-content: space-between;
+    }
+}

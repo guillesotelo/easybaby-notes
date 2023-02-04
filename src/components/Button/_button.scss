@@ -1,0 +1,48 @@
+@import '../../scss//variables';
+
+.button {
+    &__container {
+
+        &-default {
+            display: flex;
+            flex-direction: row;
+            padding: 2vw 5vw;
+            font-size: 5vw;
+            border-radius: 1vw;
+            text-align: center;
+            justify-content: center;
+            margin: 1vw;
+            background-color: $silverpink;
+            transition: .2s;
+            box-shadow: 3px 3px 7px lightgray;
+
+            &:active {
+                transition: .2s;
+                opacity: 0.8;
+            }
+        }
+
+        &-rounded {
+            border-radius: 50%;
+            // padding: 3vw 5vw;
+            height: 18vw;
+            width: 18vw;
+            line-height: 16vw;
+            text-align: center;
+            font-size: 10vw;
+            background-color: $silverpink;
+            transition: .2s;
+            box-shadow: 3px 3px 7px lightgray;
+
+            &:active {
+                transition: .2s;
+                opacity: 0.8;
+            }
+        }
+    }
+
+    &__label {
+        margin: 0;
+        font-weight: normal;
+    }
+}
