@@ -16,9 +16,9 @@ const App: React.FC = () => {
         <div className="root__container">
           <div className="menu__wrapper">
             <Header title={title} setTitle={setTitle} menuOpened={menuOpened} setMenuOpened={setMenuOpened} />
-            <Sidebar />
+            <Sidebar menuOpened={menuOpened} />
           </div>
-          <div className="root__main">
+          <div className={`root__main ${menuOpened ? 'root__menu-opened' : ''}`}>
             <Toaster />
             <Home />
             <Footer />
@@ -29,9 +29,9 @@ const App: React.FC = () => {
         <div className="root__container">
           <div className="menu__wrapper">
             <Header title={title} setTitle={setTitle} menuOpened={menuOpened} setMenuOpened={setMenuOpened} />
-            <Sidebar />
+            <Sidebar menuOpened={menuOpened} />
           </div>
-          <div className="root__main">
+          <div className={`root__main ${menuOpened ? 'root__menu-opened' : ''}`}>
             <Toaster />
             <Home />
             <Footer />

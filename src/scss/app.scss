@@ -6,11 +6,17 @@
     &__container {
         display: flex;
         flex-direction: column;
-        width: 95%;
+        // width: 95%;
     }
      &__main {
         display: flex;
         flex-direction: column;
+        align-items: center;
+        transition: .3s;
+    }
+    &__menu-opened {
+        transition: .5s;
+        filter: blur(10px)
     }
 }
 
