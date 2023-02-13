@@ -1,11 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import BarChart from 'src/components/BarChart/BarChart'
 import { CHART_PALETTE } from 'src/constants/app'
+import { noteOptions } from 'src/constants/options'
 import Button from '../../components/Button/Button'
 import DataTable from '../../components/DataTable/DataTable'
 import LogModal from '../../components/LogModal/LogModal'
 import { noteHeaders } from '../../constants/tableHeaders'
 import { getAllLogs } from '../../services'
+import Plus from '../../assets/icons/plus.svg'
+import Edit from '../../assets/icons/edit.svg'
+import Delete from '../../assets/icons/delete.svg'
 
 interface Props { }
 
@@ -14,6 +18,8 @@ const Home: React.FC<Props> = (props) => {
   const [data, setData] = useState<{ [key: string]: any }>({})
   const [logs, setLogs] = useState<{ [key: string]: any }[]>([])
   const [check, setCheck] = useState<number>(-1)
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [removeModal, setRemoveModal] = useState<boolean>(false)
   const [logsChart, setLogsChart] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
 
   // console.log("data", data)
@@ -47,17 +53,11 @@ const Home: React.FC<Props> = (props) => {
 
   const setChartsData = async () => {
     const colorPattern = logs.map((_: any) => randomColors(CHART_PALETTE)[0])
-    const easyTypes = [
-      'Eat',
-      'Activity',
-      'Sleep',
-      'Other'
-    ]
-    
+
     setLogsChart({
-      labels: easyTypes,
+      labels: noteOptions,
       datasets: [{
-        data: easyTypes.map(type => getLogCountByType(type)),
+        data: noteOptions.map(type => getLogCountByType(type)),
         backgroundColor: colorPattern
       }]
     })
@@ -73,13 +73,17 @@ const Home: React.FC<Props> = (props) => {
 
   return (
     <div className="home__container" style={{ justifyContent: logModal ? 'center' : undefined }}>
-      {logModal ?
+      {removeModal || logModal ?
         <LogModal
           whipeData={whipeData}
           setLogModal={setLogModal}
           updateData={updateData}
           data={data}
           getLogs={getLogs}
+          isEdit={isEdit}
+          setIsEdit={setIsEdit}
+          removeModal={removeModal}
+          setRemoveModal={setRemoveModal}
         /> :
         <div className="home__section">
           <DataTable
@@ -88,6 +92,8 @@ const Home: React.FC<Props> = (props) => {
             tableHeaders={noteHeaders}
             setCheck={setCheck}
             check={check}
+            isEdit={isEdit}
+            setIsEdit={setIsEdit}
           />
           <BarChart
             chartData={logsChart}
@@ -95,11 +101,40 @@ const Home: React.FC<Props> = (props) => {
             title='Logs by type'
           />
           <Button
-            label='+'
-            handleClick={() => setLogModal(true)}
+            handleClick={() => {
+              if (isEdit) {
+                const item = logs[check]
+                setData({
+                  ...item,
+                  date: new Date(item.date),
+                  finish: item.finish ? new Date(item.finish) : ''
+                })
+                return setLogModal(true)
+              }
+              setData({})
+              setLogModal(true)
+            }}
             type='rounded'
             variant='add'
+            svgPath={isEdit ? Edit : Plus}
           />
+          {isEdit ?
+            <Button
+              handleClick={() => {
+                const item = logs[check]
+                setData({
+                  ...item,
+                  date: new Date(item.date),
+                  finish: item.finish ? new Date(item.finish) : ''
+                })
+                setRemoveModal(true)
+              }}
+              type='rounded'
+              variant='remove'
+              svgPath={Delete}
+              color='#A6808C'
+            />
+            : ''}
         </div>}
     </div>
   )

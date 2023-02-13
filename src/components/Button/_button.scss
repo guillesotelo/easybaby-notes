@@ -30,7 +30,6 @@
             font-size: 10vw;
             height: 18vw;
             width: 18vw;
-            height: 18vw;
             line-height: 16vw;
             text-align: center;
             background-color: $silverpink;
@@ -53,5 +52,9 @@
     &__label {
         margin: 0;
         font-weight: normal;
+    }
+
+    &__svg {
+        height: 9vw;
     }
 }

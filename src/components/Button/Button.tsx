@@ -28,7 +28,15 @@ const Button: React.FC<Props> = (props) => {
         margin: '8vw'
     }
 
-    const btnStyle = variant === 'add' ? { ...style, ...addButtonStyle } : style
+    const removeButtonStyle = {
+        position: 'fixed',
+        bottom: 0,
+        left: 0,
+        margin: '8vw'
+    }
+
+    const btnStyle = variant === 'add' ? { ...style, ...addButtonStyle } :
+        variant === 'remove' ? { ...style, ...removeButtonStyle } : style
 
     return (
         <div className={type ? `button__container-${type}` : "button__container-default"}

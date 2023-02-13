@@ -2,13 +2,13 @@ import React, { Dispatch, SetStateAction, useState } from 'react'
 import './styles.css'
 
 interface Props {
-    tableData?: { [key: string | number]: any },
-    tableTitle?: string,
-    tableYear?: string,
-    setIsEdit?: Dispatch<SetStateAction<boolean>>,
-    isEdit?: boolean,
-    setCheck: Dispatch<SetStateAction<number>>,
-    check?: number,
+    tableData?: { [key: string | number]: any }
+    tableTitle?: string
+    tableYear?: string
+    setIsEdit?: Dispatch<SetStateAction<boolean>>
+    isEdit?: boolean
+    setCheck: Dispatch<SetStateAction<number>>
+    check?: number
     tableHeaders: { [key: string | number]: any }[]
 }
 
@@ -79,10 +79,11 @@ const DataTable: React.FC<Props> = (props) => {
                                         style={{ width: `${100 / tableHeaders.length}%` }}
                                         onClick={() => setCheck(i)}
                                     >
-                                        {header.value === 'createdAt' || header.value === 'updatedAt' || header.value === 'date' ?
-                                            `${new Date(row[header.value]).toLocaleDateString()} ${new Date(row[header.value]).toLocaleTimeString()}`
-                                            : row[header.value] ? String(row[header.value])
-                                                : '--'}
+                                        {header.value === 'createdAt' || header.value === 'updatedAt' || (header.name !== 'Start' && header.value === 'date') ?
+                                            `${new Date(row[header.value]).toLocaleDateString()}`
+                                            : header.name === 'Start' || header.name === 'Finish' ? `${row[header.value] ? new Date(row[header.value]).toLocaleTimeString() : '--'}`
+                                                : row[header.value] ? String(row[header.value])
+                                                    : '--'}
                                     </h4>
                                 )}
                             </div>
