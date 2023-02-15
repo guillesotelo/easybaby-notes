@@ -1,4 +1,4 @@
-export const VERSION = 'v1.0.6';
+export const VERSION = 'v1.0.7';
 
 export const APP_COLORS = {
     LAVENDER: '#A6808C',

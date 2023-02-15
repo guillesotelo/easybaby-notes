@@ -42,8 +42,10 @@ const Home: React.FC<Props> = (props) => {
   const whipeData = () => setData({})
 
   const getLogs = async () => {
+    setLoading(true)
     const _logs = await getAllLogs()
     setLogs(_logs)
+    setLoading(false)
   }
 
   const randomColors = (array: string[]) => {
@@ -85,9 +87,7 @@ const Home: React.FC<Props> = (props) => {
           setIsEdit={setIsEdit}
           removeModal={removeModal}
           setRemoveModal={setRemoveModal}
-          loading={loading}
-          setLoading={setLoading}
-          /> :
+        /> :
         <div className="home__section">
           <DataTable
             tableTitle='Latest Notes'
@@ -97,7 +97,6 @@ const Home: React.FC<Props> = (props) => {
             check={check}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
-            loading={loading}
           />
           <BarChart
             chartData={logsChart}
