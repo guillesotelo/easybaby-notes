@@ -21,6 +21,7 @@ const Home: React.FC<Props> = (props) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [removeModal, setRemoveModal] = useState<boolean>(false)
   const [logsChart, setLogsChart] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
+  const [loading, setLoading] = useState<boolean>(false)
 
   // console.log("data", data)
   // console.log("logs", logs)
@@ -84,7 +85,9 @@ const Home: React.FC<Props> = (props) => {
           setIsEdit={setIsEdit}
           removeModal={removeModal}
           setRemoveModal={setRemoveModal}
-        /> :
+          loading={loading}
+          setLoading={setLoading}
+          /> :
         <div className="home__section">
           <DataTable
             tableTitle='Latest Notes'
@@ -94,6 +97,7 @@ const Home: React.FC<Props> = (props) => {
             check={check}
             isEdit={isEdit}
             setIsEdit={setIsEdit}
+            loading={loading}
           />
           <BarChart
             chartData={logsChart}

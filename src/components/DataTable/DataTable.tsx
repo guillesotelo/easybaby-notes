@@ -1,4 +1,5 @@
 import React, { Dispatch, SetStateAction, useState } from 'react'
+import MoonLoader from "react-spinners/MoonLoader"
 import './styles.css'
 
 interface Props {
@@ -9,7 +10,8 @@ interface Props {
     isEdit?: boolean
     setCheck: Dispatch<SetStateAction<number>>
     check?: number
-    tableHeaders: { [key: string | number]: any }[]
+    tableHeaders: { [key: string | number]: any }[],
+    loading?: boolean
 }
 
 
@@ -23,7 +25,8 @@ const DataTable: React.FC<Props> = (props) => {
         setIsEdit,
         isEdit,
         setCheck,
-        check
+        check,
+        loading
     } = props
     const rowData = tableData && tableData.length ? tableData : []
 
@@ -61,7 +64,8 @@ const DataTable: React.FC<Props> = (props) => {
                         </h4>)
                 }
             </div>
-            {
+            {loading ? <div style={{ alignSelf: 'center', display: 'flex', marginTop: '5vw' }}><MoonLoader color='#A6808C' /></div>
+                :
                 rowData.length ?
                     <>
                         {rowData.map((row: { [key: string | number]: any }, i: number) => i < maxItems &&

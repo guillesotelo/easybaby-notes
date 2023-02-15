@@ -17,6 +17,8 @@ interface Props {
     setIsEdit: Dispatch<SetStateAction<boolean>>
     isEdit?: boolean
     setRemoveModal: Dispatch<SetStateAction<boolean>>
+    setLoading: Dispatch<SetStateAction<boolean>>
+    loading: boolean
     removeModal?: boolean
 }
 
@@ -30,7 +32,9 @@ const LogModal: React.FC<Props> = (props) => {
         setIsEdit,
         isEdit,
         setRemoveModal,
-        removeModal
+        removeModal,
+        loading,
+        setLoading
     } = props
     const [showDate, setShowDate] = useState<boolean>(false)
     const [showTime, setShowTime] = useState<boolean>(false)
@@ -43,6 +47,7 @@ const LogModal: React.FC<Props> = (props) => {
     }
 
     const handleSave = async () => {
+        setLoading(true)
         const parsedData = { ...data }
         parsedData.date = data.date ? data.date : new Date()
 
@@ -68,9 +73,11 @@ const LogModal: React.FC<Props> = (props) => {
         setLogModal(false)
         setIsEdit(false)
         setTimeout(() => getLogs(), 500)
+        setLoading(false)
     }
 
     const handleRemove = async () => {
+        setLoading(true)
         await toast.promise(
             deleteLog(data),
             {
@@ -83,6 +90,7 @@ const LogModal: React.FC<Props> = (props) => {
         setRemoveModal(false)
         setIsEdit(false)
         setTimeout(() => getLogs(), 500)
+        setLoading(false)
     }
 
     return removeModal ?
