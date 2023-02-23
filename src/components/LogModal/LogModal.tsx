@@ -112,6 +112,7 @@ const LogModal: React.FC<Props> = (props) => {
                     updateData={updateData}
                     size='55vw'
                     placeholder='Log Type'
+                    value={data.type || ''}
                 />
                 <div className="log-modal__date-pickers-container">
                     <div className="log-modal__date-pickers">

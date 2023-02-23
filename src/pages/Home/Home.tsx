@@ -10,6 +10,7 @@ import { getAllLogs } from '../../services'
 import Plus from '../../assets/icons/plus.svg'
 import Edit from '../../assets/icons/edit.svg'
 import Delete from '../../assets/icons/delete.svg'
+import { LineChart } from 'src/components/LineChart/LineChart'
 
 interface Props { }
 
@@ -21,6 +22,7 @@ const Home: React.FC<Props> = (props) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [removeModal, setRemoveModal] = useState<boolean>(false)
   const [logsChart, setLogsChart] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
+  const [logsByDay, setLogsByDay] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
   const [loading, setLoading] = useState<boolean>(false)
 
   // console.log("data", data)
@@ -54,8 +56,17 @@ const Home: React.FC<Props> = (props) => {
       .map(({ value }) => value)
   }
 
-  const setChartsData = async () => {
+  const setChartsData = () => {
     const colorPattern = logs.map((_: any) => randomColors(CHART_PALETTE)[0])
+
+    // setLogsByDay({
+    //   labels: logs.map(log => new Date(log.date).toLocaleDateString()),
+    //   datasets: [{
+    //     data: logs.map(log => getLogCountByType(type)),
+    //     backgroundColor: colorPattern
+    //   }]
+    // })
+    getLastWeekData()
 
     setLogsChart({
       labels: noteOptions,
@@ -64,6 +75,16 @@ const Home: React.FC<Props> = (props) => {
         backgroundColor: colorPattern
       }]
     })
+  }
+
+  const getLastWeekData = () => {
+    // const now = new Date()
+    // let lastDay = new Date(logs[logs.length - 1].date).getDate()
+    // let count = 0
+
+    // const data = logs.filter(log => {
+      
+    // })
   }
 
   const getLogCountByType = (type: string) => {
@@ -102,6 +123,10 @@ const Home: React.FC<Props> = (props) => {
             chartData={logsChart}
             position='y'
             title='Logs by type'
+          />
+          <LineChart
+            chartData={logsChart}
+            title='Las week logs'
           />
           <Button
             handleClick={() => {
