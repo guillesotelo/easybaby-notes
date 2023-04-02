@@ -86,10 +86,10 @@ const LogModal: React.FC<Props> = (props) => {
     }
 
     return removeModal ?
-        <div className="log-modal__container">
+        <div className="log-modal__container" style={{ margin: '14vw auto', width: '80%' }}>
             <div className="log-modal__fill-section">
                 <h4 className="log-modal__remove-text">
-                    {`Are you sure you want to remove ${data.type} - ${data.comments}?`}
+                    Are you sure you want to remove <b>{data.type}</b> - "${data.comments}"?
                 </h4>
                 <div className="log-modal__btns">
                     <Button

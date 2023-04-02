@@ -35,4 +35,9 @@
         align-items: flex-start;
         justify-content: space-between;
     }
+
+    &__remove-text {
+        font-weight: normal;
+        text-align: center;
+    }
 }

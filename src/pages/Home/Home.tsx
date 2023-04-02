@@ -197,10 +197,10 @@ const Home: React.FC<Props> = (props) => {
             position='y'
             title='Logs by type'
           />
-          <LineChart
+          {/* <LineChart
             chartData={logsChart}
             title='Las week logs'
-          />
+          /> */}
           <Button
             handleClick={() => {
               if (isEdit) {
