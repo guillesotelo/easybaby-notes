@@ -11,6 +11,9 @@ import Plus from '../../assets/icons/plus.svg'
 import Edit from '../../assets/icons/edit.svg'
 import Delete from '../../assets/icons/delete.svg'
 import { LineChart } from 'src/components/LineChart/LineChart'
+import Keypad from 'src/components/Keypad/Keypad'
+import toast from 'react-hot-toast'
+import { createLog, deleteLog, updateLog } from '../../services';
 
 interface Props { }
 
@@ -24,6 +27,8 @@ const Home: React.FC<Props> = (props) => {
   const [logsChart, setLogsChart] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
   const [logsByDay, setLogsByDay] = useState<{ [key: string]: any }>({ labels: [], datasets: [] })
   const [loading, setLoading] = useState<boolean>(false)
+  const [pushed, setPushed] = useState('')
+  const [counter, setCounter] = useState('')
 
   // console.log("data", data)
   // console.log("logs", logs)
@@ -36,6 +41,20 @@ const Home: React.FC<Props> = (props) => {
   useEffect(() => {
     if (Array.isArray(logs)) setChartsData()
   }, [logs])
+
+  const startCounter = (date: Date) => {
+    setInterval(() => {
+      setCounter(() => {
+        const lastLogDate = date.getTime()
+        const timer = new Date().getTime() - lastLogDate
+        return `${new Date(timer).getMinutes()}:${new Date(timer).getSeconds()}`
+
+        // const minutes = counter ? Number(counter.split(':')[0]) : 0
+        // const seconds = counter ? Number(counter.split(':')[1]) : 0
+        // return `${seconds === 59 ? minutes + 1 : minutes}:${seconds === 59 ? 0 : seconds + 1}`
+      })
+    }, 1000)
+  }
 
   const updateData = (key: string | number, value: any) => {
     setData({ ...data, [key]: value })
@@ -83,7 +102,7 @@ const Home: React.FC<Props> = (props) => {
     // let count = 0
 
     // const data = logs.filter(log => {
-      
+
     // })
   }
 
@@ -93,6 +112,54 @@ const Home: React.FC<Props> = (props) => {
       if (log.type === type) count++
     })
     return count
+  }
+
+  const pushLog = async (action: string) => {
+    if (pushed) {
+      const interval_id = window.setInterval(function () { }, Number.MAX_SAFE_INTEGER);
+      for (let i = 1; i < interval_id; i++) {
+        window.clearInterval(i);
+      }
+      setCounter('')
+      setPushed('')
+
+      await toast.promise(
+        updateLog({
+          ...logs[0],
+          finish: new Date()
+        }),
+        {
+          loading: 'Saving...',
+          success: <b>Log saved successfully</b>,
+          error: <b>Error saving log</b>,
+        }
+      )
+
+      return setTimeout(() => {
+        getLogs()
+      }, 500)
+    }
+
+    await toast.promise(
+      createLog({
+        ...data,
+        hasTime: true,
+        date: new Date(),
+        finish: new Date(new Date().setTime(new Date().getTime() + 1.8E6)),
+        comments: '',
+        type: action
+      }),
+      {
+        loading: '',
+        success: <b>Timer started</b>,
+        error: <b>Error</b>,
+      }
+    )
+
+    setTimeout(() => {
+      getLogs()
+      startCounter(new Date())
+    }, 500)
   }
 
   return (
@@ -110,6 +177,12 @@ const Home: React.FC<Props> = (props) => {
           setRemoveModal={setRemoveModal}
         /> :
         <div className="home__section">
+          <Keypad
+            pushLog={pushLog}
+            counter={counter}
+            pushed={pushed}
+            setPushed={setPushed}
+          />
           <DataTable
             tableTitle='Latest Notes'
             tableData={logs}
