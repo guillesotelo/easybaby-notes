@@ -19,6 +19,10 @@ export const noteHeaders = [
     name: 'Finish',
     value: 'finish'
   },
+  {
+    name: 'Time',
+    value: 'timePassed'
+  },
   // {
   //   name: 'Who',
   //   value: 'username'

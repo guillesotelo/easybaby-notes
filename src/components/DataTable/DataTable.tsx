@@ -46,6 +46,18 @@ const DataTable: React.FC<Props> = (props) => {
         }
     }
 
+    const calculateTimePassed = (log: { [key: string | number]: any }) => {
+        if(log.date && log.finish) {
+            const date = new Date(log.date).getTime()
+            const finish = new Date(log.finish).getTime()
+            let time = String((finish - date) / 6E4).split('.')[0]
+    
+            if (Number(time) > 59) return `${(Number(time) / 60).toFixed(1)} h`
+            return time + ' min'
+        }
+        return '--'
+    }
+
     return (
         <div className='table-container'>
             <div className='table-titles'>
@@ -80,14 +92,18 @@ const DataTable: React.FC<Props> = (props) => {
                                     <h4
                                         key={j}
                                         className={`table-row-item`}
-                                        style={{ width: `${100 / tableHeaders.length}%` }}
+                                        style={{
+                                            width: `${100 / tableHeaders.length}%`,
+                                            color: header.value === 'timePassed' ? 'blue' : ''
+                                        }}
                                         onClick={() => setCheck(i)}
                                     >
-                                        {header.value === 'createdAt' || header.value === 'updatedAt' || (header.name !== 'Start' && header.value === 'date') ?
-                                            `${new Date(row[header.value]).toLocaleDateString()}`
-                                            : header.name === 'Start' || header.name === 'Finish' ? `${row[header.value] ? new Date(row[header.value]).toLocaleTimeString() : '--'}`
-                                                : row[header.value] ? String(row[header.value])
-                                                    : '--'}
+                                        {header.value === 'timePassed' ? calculateTimePassed(row) :
+                                            header.value === 'createdAt' || header.value === 'updatedAt' || (header.name !== 'Start' && header.value === 'date') ?
+                                                `${new Date(row[header.value]).toLocaleDateString().replace(':00 ', ' ')}`
+                                                : header.name === 'Start' || header.name === 'Finish' ? `${row[header.value] ? new Date(row[header.value]).toLocaleTimeString().replace(':00 ', ' ') : '--'}`
+                                                    : row[header.value] ? String(row[header.value])
+                                                        : '--'}
                                     </h4>
                                 )}
                             </div>
