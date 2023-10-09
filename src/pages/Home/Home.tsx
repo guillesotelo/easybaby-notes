@@ -65,7 +65,7 @@ const Home: React.FC<Props> = (props) => {
   const getLogs = async () => {
     setLoading(true)
     const _logs = await getAllLogs()
-    setLogs(_logs)
+    if(_logs && _logs.length) setLogs(_logs)
     setLoading(false)
   }
 
